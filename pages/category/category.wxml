@@ -1,0 +1,73 @@
+<view class="content" >
+	<view class="searchGroup" id="search">
+		<view class="searchBox">
+			<view class="iconfont icon-search icon"></view>
+			<input class="search" placeholder="请输入商品名称" bindinput="changeGoods" value="{{goodsInput}}" />
+			<view class="iconfont icon-roundclosefill icon" ></view>
+		</view>
+		<view class="searchBtn" bindtap="search">确定</view>
+	</view>
+	<view class="cate-wrapper">
+		<scroll-view class="cate-list" scroll-y scroll-with-animation="{{true}}">
+			<view class="cate-item {{curIndex === index ? 'select': ''}}" wx:for="{{categoryList}}" wx:key="{{item.id}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="switchCategory">
+				<text>{{item.name}}</text>
+			</view>
+		</scroll-view>
+		<scroll-view class="cate-detail" id="cate-detail" style="height: {{cateHeight}}px" catchscroll="scrolls" scroll-y>
+			<view >
+				<view class="goodsItem" wx:for="{{showGoods}}" wx:key="{{item.skuId}}">
+					<image class="goodsImg {{item.imageUrl ? '' : 'default'}}" ></image>
+					<view class="goodsInfo">
+						<view class="goodsName">{{item.produceName}}</view>
+						<view class="priceGroup" >
+							<view class="priceNum" >
+								<text class="price" >￥{{item.price}}</text>
+								<text class="oriPrice">{{item.originPrice}}</text>
+							</view>
+							<view class="num-operate-group">
+								<view class="iconfont icon-add numOperate" bindtap="addProduct" data-id="{{item.skuId}}" data-index="{{index}}"></view>
+								<view class="numOperate {{item.num > 0? '':'num-hide'}}" >{{item.num}}</view>
+								<view class="iconfont icon-dec numOperate {{item.num > 0? '':'num-hide'}}" bindtap="deleteProduct" data-id="{{item.skuId}}" data-index="{{index}}" ></view>
+							</view>
+						</view>
+					</view>				
+				</view>
+				<view class="load-end {{showGoods.length === 0? '':'dpnone'}} {{isLoadingEnd?'':'dpnone'}}">
+					<text >我是有底线的</text>
+				</view>		
+			</view>
+		</scroll-view>
+	</view>
+	<view class="shopcart-wrapper" id="shopcart">
+		<view class="mask {{selectedGoods.length>0 && shoppingcartIsShow ?'':'dpnone'}}" catchtap="transShoppingCart"></view>
+		<view class="info" wx:if="{{shoppingcartIsShow && selectedGoods.length > 0}}" animation="{{animationData}}">
+			<view class="header">
+				<view class="size28" >已选商品</view>
+				<view class="cancel-select size28" bindtap="clearAll">全部清空</view>		
+			</view>
+			<view class="list">
+				<view class="item" wx:for="{{selectedGoods}}">
+					<view class="item-name" >{{item.produceName}}</view>
+					<view class="num-operate-group">
+						<view class="iconfont icon-add numOperate" bindtap="addProduct" data-id="{{item.skuId}}" data-index="{{index}}"></view>
+						<view class="numOperate {{item.num > 0? '':'num-hide'}}" >{{item.num}}</view>
+						<view class="iconfont icon-dec numOperate {{item.num > 0? '':'num-hide'}}" bindtap="deleteProduct" data-id="{{item.skuId}}" data-index="{{index}}" ></view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="operate">
+			<view class="icon-group" id="shoppingCart" catchtap="transShoppingCart">
+				<view class="icon" ><image src="" width="110rpx" height="110rpx"></image></view>
+				<view class="num themebg" >{{selectedGoods.length}}</view>
+			</view>
+			<view class="distributionFee">
+				<text class="size30">共{{selectedGoods.length}}个商品</text>
+			</view>
+			<view class="size34 themebg confirm-select" >确定选择</view>
+		</view>
+	</view>
+	<view class="animate" style="{{style}}">
+		<view class="iconfont icon-add numOperate" ></view>
+	</view>
+</view>
