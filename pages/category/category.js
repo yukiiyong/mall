@@ -1,12 +1,13 @@
 const app = getApp()
+let goods = require('../../mock/goods').goods
 
 Page({
   data: {
-	  	animaTimer: null,
+		animaTimer: null,
 		goodsInput: '',
-        curIndex: 0, 
-        scrollTop: 0,
-        cateHeight: 0,  
+		curIndex: 0, 
+		scrollTop: 0,
+		cateHeight: 0,  
 		isLoadingEnd: false,
 		categoryList: [
 			{name: '新鲜水果',id: '1001'},
@@ -15,125 +16,7 @@ Page({
 			{name: '水产海鲜',id: '1004'},
 			{name: '粮油调味',id: '1005'}
 		],
-		showGoods: [
-			{
-				"skuId": "1",
-				"title": "苹果",
-				"produceName":"苹果",
-				'desc':'新鲜水果',
-				"price": 10.00,
-				"originPrice": 15.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "2",
-				"title": "雪梨",
-				"produceName":"雪梨",
-				'desc':'新鲜水果',
-				"price": 10.00,
-				"originPrice": 15.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "3",
-				"title": "丑柑",
-				"produceName":"丑柑",
-				'desc':'新鲜水果',
-				"price": 10.00,
-				"originPrice": 15.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "4",
-				"title": "砂糖橘",
-				"produceName":"砂糖橘",
-				'desc':'新鲜水果',
-				"price": 3.50,
-				"originPrice": 5.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "5",
-				"title": "柚子",
-				"produceName":"柚子",
-				'desc':'新鲜水果',
-				"price": 8.00,
-				"originPrice": 10.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "6",
-				"title": "西瓜",
-				"produceName":"西瓜",
-				'desc':'新鲜水果',
-				"price": 2.50,
-				"originPrice": 4.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "7",
-				"title": "哈密瓜",
-				"produceName":"哈密瓜",
-				'desc':'新鲜水果',
-				"price": 2.50,
-				"originPrice": 4.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "8",
-				"title": "水蜜桃",
-				"produceName":"水蜜桃",
-				'desc':'新鲜水果',
-				"price": 2.50,
-				"originPrice": 4.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-			{
-				"skuId": "9",
-				"title": "樱桃",
-				"produceName":"樱桃",
-				'desc':'新鲜水果',
-				"price": 2.50,
-				"originPrice": 4.00,
-				"imageUrl": '',
-				"saleCount": 0,
-				"tag": null,
-				"isSelect": false,
-				"num": 0 
-			},
-		],
+		showGoods: [],
 		selectedGoods:[],
 		shoppingcartIsShow: false,
 		animationData: '',
@@ -141,10 +24,16 @@ Page({
 			top: 0,
 			left: 0
 		},
+		naviBack: false,
 		style: 'top:0;left:0;opacity:0;'
 	},
 	changeGoods() {
 
+	},
+	loadGoods() {
+		this.setData({
+			showGoods: goods
+		})
 	},
 	search(e) {
 		console.log(e)
@@ -155,7 +44,7 @@ Page({
 		// let left = e.touches[0].pageX
 		// let top = e.touches[0].pageY
 		let left = e.detail.x - 40
-        let top = e.detail.y - 40
+		let top = e.detail.y - 40
 		this.setData({
 			style: `left: ${left}px;top:${top}px;`
 		})
@@ -185,6 +74,7 @@ Page({
 			[num]: data.num,
 			selectedGoods: selectedGoods
 		})
+		app.globalData.carts = selectedGoods
 	},
 	switchCategory(e) {
 		const index = e.currentTarget.dataset.index
@@ -212,8 +102,11 @@ Page({
 		let selectedIndex = this.findGoodIndexById(id,selectedGoods)
 		data.num = data.num + 1
 		if(!data.isSelect || selectedIndex === -1) {
-			selectedGoods.push(data)
-		}	
+			let copiedData = {...data}
+			selectedGoods.push(copiedData)
+		}	else {
+			selectedGoods[selectedIndex].num = selectedGoods[selectedIndex].num + 1
+		}
 		let num = 'showGoods['+showGoodIndex+'].num'   
 		let tag = 'showGoods['+showGoodIndex+'].isSelect'
 		this.setData({
@@ -221,6 +114,7 @@ Page({
 			[num]: data.num,
 			selectedGoods: selectedGoods
 		})
+		app.globalData.carts = selectedGoods
     },
 	findGoodIndexById(id, list) {
 		//get id return index
@@ -231,6 +125,7 @@ Page({
 		}
 		if(!(list instanceof Array)) {
 			console.warn('list must be array')
+			return -1
 		}
 		list.map((v, i) => {
 			if(v.skuId === id) {
@@ -239,10 +134,10 @@ Page({
 		})
 		return returnVal
 	},
-    scrolls(e) {
-        // console.log(`scrollview scroll ${e.detail.scrollTop}`)
-        
-    },
+	scrolls(e) {
+			// console.log(`scrollview scroll ${e.detail.scrollTop}`)
+			
+	},
 	queryElementSize(id) {
 		return new Promise((resolve, reject) => {
 			let query = wx.createSelectorQuery()
@@ -329,29 +224,68 @@ Page({
 					showGoods: showGoods,
 					selectedGoods: []
 				})
+				app.globalData.carts = []
 			}
 		})
 	},
-    onLoad: function(options) {
-        let query = wx.createSelectorQuery()
-        let eleHeight = 0
-        query.select('#search').boundingClientRect()
-        query.select('#shopcart').boundingClientRect()
-        query.exec(res => {
-            for(let i = 0; i < res.length; i++) {
-                eleHeight += res[i].height
-            }
-            // console.log(`winHeight:${app.globalData.winHeight},eleHeight:${eleHeight}`)
-            this.setData({
-                cateHeight: app.globalData.winHeight - eleHeight
-            })
-        })
-    },
+	goToOrder() {
+		wx.navigateTo({url:"../order/order"})
+	},
+	onLoad: function(options) {
+		let query = wx.createSelectorQuery()
+		let eleHeight = 0
+		query.select('#search').boundingClientRect()
+		query.select('#shopcart').boundingClientRect()
+		query.exec(res => {
+				for(let i = 0; i < res.length; i++) {
+						eleHeight += res[i].height
+				}
+				this.setData({
+						cateHeight: app.globalData.winHeight - eleHeight
+				})
+		})
+		this.loadGoods()
+	},
+	resetGoodsNum(goods) {
+		if(!(goods instanceof Array)) {
+			return
+		}
+		for(let i = 0; i < goods.length; i++) {
+			goods[i].num = 0
+		}
+		return goods
+	},
+	onHide() {
+		this.setData({
+			naviBack: true
+		})
+		console.log(app.globalData.carts)
+	},
 	onShow: function(options) {
-        this.queryShoppingCartPos()
-    
-    },
-    onPageScroll: function(e) {
-        // console.log(`pagescroll scrollL:${e.scrollTop}`)
-    }
+		let showGoods = [...this.data.showGoods]
+		if(!app.globalData.carts instanceof Array) {
+			app.globalData.carts = []
+		}
+		let carts = app.globalData.carts
+		if(this.data.naviBack) {
+			showGoods = this.resetGoodsNum(showGoods)
+			for(let i = 0;i < carts.length;i++) {
+				let index = this.findGoodIndexById(carts[i].skuId,
+					showGoods)
+				if(index > -1) {
+					showGoods[index].num = carts[i].num
+				} else {
+					showGoods.push(carts[i])
+				}
+			}
+			this.setData({
+				showGoods: showGoods,
+				selectedGoods: carts
+			})
+		}
+    this.queryShoppingCartPos()    
+  },
+	onPageScroll: function(e) {
+		// console.log(`pagescroll scrollL:${e.scrollTop}`)
+	}
 })

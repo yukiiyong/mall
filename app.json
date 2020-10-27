@@ -2,31 +2,40 @@
   "pages": [
     "pages/category/category",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/cart/cart",
+    "pages/order/order",
+    "pages/user/user"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#7C7C7C",
+    "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "电影",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#000",
+    "backgroundColor": "#fff",
     "enablePullDownRefresh": false
   },
   "tabBar": {
     "color": "#363333",
-    "backgroundColor": "#EAEAEA",
+    "backgroundColor": "white",
     "borderStyle": "white",
     "selectedColor": "#636262",
     "list": [
       {
-        "text": "分类",
+        "text": "首页",
         "pagePath": "pages/category/category",
         "iconPath": "images/home.png",
         "selectedIconPath": "images/home-actived.png"
       },
       {
+        "text": "购物车",
+        "pagePath": "pages/cart/cart",
+        "iconPath": "images/cart.png",
+        "selectedIconPath": "images/cart-actived.png"
+      },
+      {
         "text": "我的",
-        "pagePath": "pages/logs/logs",
+        "pagePath": "pages/user/user",
         "iconPath": "images/profile.png",
         "selectedIconPath": "images/profile-actived.png"
       }      

@@ -1,0 +1,44 @@
+<view class="content" >
+  <view class="header" id="header">
+		<view class="size26 fl">共{{selectNum}}件商品已选择</view>
+		<view bindtap="editList" class="fr size30 link">{{isEdit?'完成':'编辑'}}</view>
+	</view>
+	<scroll-view class="list" scroll-y scroll-with-animation="{{true}}" style="height: {{listHeight}}px">
+		<view class="item" wx:for="{{carts}}">
+			<view class="icon" >
+				<icon wx:if="{{item.isSelect}}" type="success" color="red" bindtap="selectItem" data-index="{{index}}" size="{{iconSize}}"></icon>
+				<icon wx:else type="circle" bindtap="selectItem" data-index="{{index}}" size="{{iconSize}}"></icon>
+			</view>
+			<view class="details" >
+				<image class="goodsImg {{item.imageUrl ? '': 'default'}}" src="{{imageUrl}}" ></image>
+				<view class="wrapper" >
+					<view class="title" >{{item.title}}</view>
+					<view class="desc size26">{{item.desc}}</view>
+					<view class="fx-box" >
+						<view class="price fl" >￥{{item.price}}</view>
+						<view class="num fr" wx:if="{{!isEdit}}">x{{item.num}}</view>
+						<view class="fr" wx:else>
+							<view class="iconfont icon-add numOperate" bindtap="increaseItem" data-id="{{item.skuId}}" data-index="{{index}}"></view>
+							<view class="numOperate {{item.num > 0? '':'num-hide'}}" >{{item.num}}</view>
+							<view class="iconfont icon-dec numOperate {{item.num > 0? '':'num-hide'}}" bindtap="decreaseItem" data-id="{{item.skuId}}" data-index="{{index}}" ></view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+	<view class="footer" id="footer">
+		<view class="allSelect" >
+			<view class="icon" >
+				<icon wx:if="{{allSelected}}" type="success" color="red" bindtap="selectAll" size="{{iconSize}}"></icon>
+				<icon wx:else type="circle" bindtap="selectAll" size="{{iconSize}}"></icon>
+			</view>
+			<text >全选</text>
+		</view>
+		<view class="total size26" >
+			<view >合计:  {{'￥'+totalPrice}}</view>
+			<view class="size20">不含运费</view>
+		</view>
+		<view class="account {{selectNum > 0 ?'theme-success' : 'theme-default'}}" bindtap="">结算</view>
+	</view>
+</view>

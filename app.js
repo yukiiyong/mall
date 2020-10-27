@@ -1,7 +1,8 @@
-
+const wechat = require('./util/wechat.js')
 App({
 	data: {
 	},
+	wechat: wechat,
 	//生命周期函数，监听小程序初始化
 	//当小程序初始化完成，会触发onLanch (全局只触发一次)
 	onLaunch() {
@@ -40,10 +41,40 @@ App({
 		})
 
 	},
+	http: (url, data='',method='GET') => {
+		const baseUrl = ''
+		return new Promise((resolve, reject) => {
+			wx.request({
+				url: baseUrl + url,
+				data: data,
+				method,
+				success: (res) => {
+					if(res.code != 200) {
+						wx.showModal({
+							title: '提示',
+							content: res.data.message || '请求失败！',
+							success: (res) => {
+								if(res) {
+									console.log('用户点击确定')
+								} else {
+									console.log('用户点击取消')
+								}
+							}
+						})
+					}
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			})
+		})
+
+	},
 	globalData: {
 		userInfo: null,
 		winWidth: 0,
 		winHeight: 0,
-		cart: {}
+		carts: []
 	}
 })

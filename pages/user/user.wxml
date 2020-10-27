@@ -1,0 +1,21 @@
+<view class="content">
+  <view class="header" >
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" class="auth-btn" bindgetuserinfo="getUserInfo">获取用户信息</button>
+		<block wx:if="{{hasUserInfo}}" >
+			<image src="{{user.avatarUrl}}" mode="aspectFill" class="img"></image>
+			<text class="name" >{{user.nickName || ''}}</text>
+		</block>
+	</view>
+	<view class="item" bindtap="">
+		<text class="item-hd">我的订单</text>
+		<text class="item-icon iconfont icon-right"></text>
+	</view>
+	<view class="item" bindtap="">
+		<text class="item-hd">优惠券</text>
+		<text class="item-icon iconfont icon-right"></text>
+	</view>
+	<view class="item" bindtap="">
+		<text class="item-hd">我的地址</text>
+		<text class="item-icon iconfont icon-right"></text>
+	</view>
+</view>

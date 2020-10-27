@@ -64,7 +64,7 @@
 			<view class="distributionFee">
 				<text class="size30">共{{selectedGoods.length}}个商品</text>
 			</view>
-			<view class="size34 themebg confirm-select" >确定选择</view>
+			<view class="size34 themebg confirm-select" bindtap="goToOrder">确定选择</view>
 		</view>
 	</view>
 	<view class="animate" style="{{style}}">

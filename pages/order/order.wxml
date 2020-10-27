@@ -1,0 +1,27 @@
+<view class="content">
+  <view class="infoGroup" bindtap="goToPage('address')">
+    <view class="infoBox">
+      <view class="name">aaa</view>
+      <view class="phone">13100000000</view>
+      <view class="address">广东省深圳市</view>
+    </view>
+    <view class="icon iconfont icon-right"></view>
+  </view>
+  <view class="list">
+    <view class="item">
+      <image src="{{}}" class="goods-image" ></image>
+      <view class="goods-info" >
+        <view class="goods-name">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</view>
+        <view class="info">
+          <view class="price" >￥25.00</view>
+          <view class="num themegray" >x1</view>
+        </view>  
+      </view>
+    </view>
+  </view>
+  <view class="bottom " >
+    <view class="submit fr" >提交订单</view>
+    <view class="total-price fr mr20" >合计： ￥493.41</view>
+    <view class="total-num fr themegray" >共3件,</view>
+  </view>
+</view>
