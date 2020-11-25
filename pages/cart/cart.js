@@ -129,9 +129,9 @@ Page({
    
   },
   onShow() {
-    this.setData({
-      carts: app.globalData.carts
-    })
+    // this.setData({
+    //   carts: app.globalData.carts
+    // })
   },
   onHide() {
     console.log('cart page onHide')
